@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide walks you through deploying the FDE Workflow Platform to Railway (PostgreSQL) and Vercel (Next.js).
+This guide walks you through deploying the Orbital to Railway (PostgreSQL) and Vercel (Next.js).
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This guide walks you through deploying the FDE Workflow Platform to Railway (Pos
 ### 1.1 Create a new GitHub repository
 
 1. Go to https://github.com/new
-2. Create a new repository (e.g., `fde-workflow-platform`)
+2. Create a new repository (e.g., `orbital-platform`)
 3. **Don't** initialize with README, .gitignore, or license (we already have these)
 
 ### 1.2 Push your code to GitHub
@@ -24,7 +24,7 @@ cd /Users/garywu/Desktop/learning
 
 # Make sure all changes are committed
 git add .
-git commit -m "Initial commit: FDE Workflow Platform MVP"
+git commit -m "Initial commit: Orbital MVP"
 
 # Add your GitHub repo as origin
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git

@@ -76,9 +76,9 @@ The app will be available at http://localhost:3000
    - Navigate to http://localhost:3000/auth/register
    - Create your organization and user account
 
-2. **Create Your First Company**
-   - Go to Companies → Add Company
-   - Add a client company
+2. **Create Your First Customer**
+   - Go to Customers → Add Customer
+   - Add a client customer
 
 3. **Start Tracking Work**
    - Create integrations, tasks, and notes
@@ -137,7 +137,7 @@ npm test:coverage        # Run tests with coverage
 ## Next Steps
 
 - Explore the dashboard
-- Create companies and integrations
+- Create customers and integrations
 - Add tasks and notes
 - Check out the eval runs page
 - Use the search functionality

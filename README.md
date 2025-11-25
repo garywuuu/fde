@@ -1,4 +1,4 @@
-# FDE Workflow Platform - MVP
+# Orbital - MVP
 
 A consolidated platform for Forward Deployed Engineers to manage client-facing deliverables and infrastructure workflows.
 
@@ -22,7 +22,7 @@ A consolidated platform for Forward Deployed Engineers to manage client-facing d
 - AI assist panel specifications
 
 ### 4. Integration Tracker (`docs/integration_tracker.md`)
-- Data model: Companies, Integrations, Checklists, Artifacts, Pipelines, Agents
+- Data model: Customers, Integrations, Checklists, Artifacts, Pipelines, Agents
 - Template library for onboarding workflows
 - Portfolio view with filters
 - Webhook automations
@@ -62,7 +62,7 @@ A consolidated platform for Forward Deployed Engineers to manage client-facing d
 2. **Database Schema** (`prisma/schema.prisma`)
    - Organizations (multi-tenant)
    - Users with RBAC roles (FDE, Solutions Architect, Customer)
-   - Companies (clients) with stages
+   - Customers (clients) with stages
    - Integrations with checklists and artifacts
    - Pipelines and Agents
    - Eval Runs
@@ -79,7 +79,7 @@ A consolidated platform for Forward Deployed Engineers to manage client-facing d
 4. **API Routes**
    - `/api/auth/register` - User registration
    - `/api/auth/[...nextauth]` - NextAuth handler
-   - `/api/companies` - CRUD for companies
+   - `/api/customers` - CRUD for customers
    - `/api/integrations` - CRUD for integrations
    - `/api/tasks` - CRUD for tasks with filtering
    - `/api/notes` - CRUD for notes
@@ -87,7 +87,7 @@ A consolidated platform for Forward Deployed Engineers to manage client-facing d
 5. **UI Components**
    - Layout component with navigation
    - Dashboard with stats overview
-   - Companies: list, create, and detail pages
+   - Customers: list, create, and detail pages
    - Integrations: list, create, and detail pages with checklist management
    - Tasks: list, create pages with filtering by status
    - Notes: list, create, and detail pages with shareable links
@@ -101,7 +101,7 @@ A consolidated platform for Forward Deployed Engineers to manage client-facing d
 
 7. **API Endpoints (15+)**
    - Auth: register, sign-in (NextAuth)
-   - Companies: CRUD operations
+   - Customers: CRUD operations
    - Integrations: CRUD + checklist management
    - Tasks: CRUD with filtering
    - Notes: CRUD with versioning

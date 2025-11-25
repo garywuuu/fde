@@ -13,7 +13,7 @@ export function Layout({ children }: LayoutProps) {
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/companies", label: "Companies" },
+    { href: "/customers", label: "Customers" },
     { href: "/integrations", label: "Integrations" },
     { href: "/tasks", label: "Tasks" },
     { href: "/notes", label: "Notes" },
@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
                 <Link href="/dashboard" className="text-xl font-bold text-blue-600">
-                  FDE Platform
+                  Orbital
                 </Link>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">

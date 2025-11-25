@@ -29,7 +29,7 @@ npm test:coverage
 Current test coverage includes:
 
 ### API Routes (8 test files, 32 tests)
-- ✅ `/api/companies` - CRUD operations
+- ✅ `/api/customers` - CRUD operations
 - ✅ `/api/integrations` - Integration management
 - ✅ `/api/tasks` - Task management with filtering
 - ✅ `/api/notes` - Notes with versioning

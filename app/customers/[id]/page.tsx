@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
-interface Company {
+interface Customer {
   id: string;
   name: string;
   stage: string;
@@ -29,32 +29,32 @@ interface Company {
   };
 }
 
-export default function CompanyDetailPage() {
+export default function CustomerDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [company, setCompany] = useState<Company | null>(null);
+  const [customer, setCustomer] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadCompany() {
+    async function loadCustomer() {
       try {
-        const res = await fetch(`/api/companies/${params.id}`);
+        const res = await fetch(`/api/customers/${params.id}`);
         if (res.ok) {
           const data = await res.json();
-          setCompany(data.company);
+          setCustomer(data.customer);
         } else {
-          router.push("/companies");
+          router.push("/customers");
         }
       } catch (error) {
-        console.error("Failed to load company:", error);
-        router.push("/companies");
+        console.error("Failed to load customer:", error);
+        router.push("/customers");
       } finally {
         setLoading(false);
       }
     }
 
     if (params.id) {
-      loadCompany();
+      loadCustomer();
     }
   }, [params.id, router]);
 
@@ -68,7 +68,7 @@ export default function CompanyDetailPage() {
     );
   }
 
-  if (!company) {
+  if (!customer) {
     return null;
   }
 
@@ -77,23 +77,23 @@ export default function CompanyDetailPage() {
       <div className="mb-8">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{company.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{customer.name}</h1>
             <p className="mt-2 text-gray-600">
               <span className={`inline-block px-3 py-1 text-sm font-medium rounded ${
-                company.stage === "live" ? "bg-green-100 text-green-800" :
-                company.stage === "rollout" ? "bg-blue-100 text-blue-800" :
-                company.stage === "pilot" ? "bg-yellow-100 text-yellow-800" :
+                customer.stage === "live" ? "bg-green-100 text-green-800" :
+                customer.stage === "rollout" ? "bg-blue-100 text-blue-800" :
+                customer.stage === "pilot" ? "bg-yellow-100 text-yellow-800" :
                 "bg-gray-100 text-gray-800"
               }`}>
-                {company.stage}
+                {customer.stage}
               </span>
             </p>
           </div>
           <div className="flex gap-3">
-            <Link href={`/companies/${company.id}/edit`}>
+            <Link href={`/customers/${customer.id}/edit`}>
               <Button variant="secondary">Edit</Button>
             </Link>
-            <Link href="/companies">
+            <Link href="/customers">
               <Button variant="secondary">Back to List</Button>
             </Link>
           </div>
@@ -104,28 +104,28 @@ export default function CompanyDetailPage() {
         <Card>
           <h3 className="text-sm font-medium text-gray-600 mb-2">Owner</h3>
           <p className="text-lg font-semibold text-gray-900">
-            {company.owner?.name || company.owner?.email || "Unassigned"}
+            {customer.owner?.name || customer.owner?.email || "Unassigned"}
           </p>
         </Card>
 
         <Card>
           <h3 className="text-sm font-medium text-gray-600 mb-2">Integrations</h3>
-          <p className="text-3xl font-bold text-gray-900">{company._count.integrations}</p>
+          <p className="text-3xl font-bold text-gray-900">{customer._count.integrations}</p>
         </Card>
 
         <Card>
           <h3 className="text-sm font-medium text-gray-600 mb-2">Open Tasks</h3>
-          <p className="text-3xl font-bold text-gray-900">{company._count.tasks}</p>
+          <p className="text-3xl font-bold text-gray-900">{customer._count.tasks}</p>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card title="Integrations">
-          {company.integrations.length === 0 ? (
+          {customer.integrations.length === 0 ? (
             <p className="text-gray-500 text-sm">No integrations yet</p>
           ) : (
             <div className="space-y-3">
-              {company.integrations.map((integration) => (
+              {customer.integrations.map((integration) => (
                 <Link
                   key={integration.id}
                   href={`/integrations/${integration.id}`}
@@ -150,7 +150,7 @@ export default function CompanyDetailPage() {
               ))}
             </div>
           )}
-          <Link href={`/integrations/new?companyId=${company.id}`}>
+          <Link href={`/integrations/new?customerId=${customer.id}`}>
             <Button variant="secondary" size="sm" className="mt-4 w-full">
               Add Integration
             </Button>
@@ -158,11 +158,11 @@ export default function CompanyDetailPage() {
         </Card>
 
         <Card title="Recent Tasks">
-          {company.tasks.length === 0 ? (
+          {customer.tasks.length === 0 ? (
             <p className="text-gray-500 text-sm">No tasks yet</p>
           ) : (
             <div className="space-y-3">
-              {company.tasks.map((task) => (
+              {customer.tasks.map((task) => (
                 <div
                   key={task.id}
                   className="p-3 border border-gray-200 rounded-lg"
@@ -175,7 +175,7 @@ export default function CompanyDetailPage() {
               ))}
             </div>
           )}
-          <Link href={`/tasks/new?companyId=${company.id}`}>
+          <Link href={`/tasks/new?customerId=${customer.id}`}>
             <Button variant="secondary" size="sm" className="mt-4 w-full">
               Add Task
             </Button>
@@ -183,11 +183,11 @@ export default function CompanyDetailPage() {
         </Card>
 
         <Card title="Recent Notes">
-          {company.notes.length === 0 ? (
+          {customer.notes.length === 0 ? (
             <p className="text-gray-500 text-sm">No notes yet</p>
           ) : (
             <div className="space-y-3">
-              {company.notes.map((note) => (
+              {customer.notes.map((note) => (
                 <Link
                   key={note.id}
                   href={`/notes/${note.id}`}
@@ -201,7 +201,7 @@ export default function CompanyDetailPage() {
               ))}
             </div>
           )}
-          <Link href={`/notes/new?companyId=${company.id}`}>
+          <Link href={`/notes/new?customerId=${customer.id}`}>
             <Button variant="secondary" size="sm" className="mt-4 w-full">
               Add Note
             </Button>
@@ -210,8 +210,8 @@ export default function CompanyDetailPage() {
 
         <Card title="Metrics">
           <p className="text-gray-500 text-sm">
-            {company.successMetrics
-              ? JSON.stringify(company.successMetrics, null, 2)
+            {customer.successMetrics
+              ? JSON.stringify(customer.successMetrics, null, 2)
               : "No metrics configured"}
           </p>
         </Card>

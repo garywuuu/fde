@@ -20,9 +20,9 @@
 
 ## Architecture
 - Use LangChain/LangGraph orchestration with tools:
-  - `fetchClientContext(companyId)` – pulls notes, integrations, eval metrics.
-  - `listOpenTasks(companyId)` – returns outstanding items.
-  - `getMetrics(companyId)` – latest success KPIs.
+  - `fetchClientContext(customerId)` – pulls notes, integrations, eval metrics.
+  - `listOpenTasks(customerId)` – returns outstanding items.
+  - `getMetrics(customerId)` – latest success KPIs.
 - Store conversation state per user; respect RBAC scopes when fetching context.
 - Employ vector store (pgvector/Weaviate) for semantic retrieval over notes/docs.
 - Guardrails: moderation + deterministic prompt templates; allow manual review for external comms.

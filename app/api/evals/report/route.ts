@@ -11,7 +11,7 @@ const webhookSchema = z.object({
   passedTests: z.number().int().min(0),
   tokens: z.number().int().optional(),
   duration: z.number().int().optional(),
-  companyId: z.string().uuid().optional(),
+  customerId: z.string().uuid().optional(),
   agentId: z.string().uuid().optional(),
   metadata: z.record(z.any()).optional(),
   payload: z.record(z.any()).optional(),
@@ -27,22 +27,22 @@ export async function POST(req: NextRequest) {
     // TODO: Verify webhook token if configured
     // For now, accept all webhooks (should be secured in production)
 
-    // Try to find organization by companyId or use a default
+    // Try to find organization by customerId or use a default
     let organizationId: string | undefined;
 
-    if (data.companyId) {
-      const company = await prisma.company.findUnique({
-        where: { id: data.companyId },
+    if (data.customerId) {
+      const customer = await prisma.customer.findUnique({
+        where: { id: data.customerId },
         select: { organizationId: true },
       });
-      if (company) {
-        organizationId = company.organizationId;
+      if (customer) {
+        organizationId = customer.organizationId;
       }
     }
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: "Organization not found. Provide valid companyId." },
+        { error: "Organization not found. Provide valid customerId." },
         { status: 400 }
       );
     }
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         tokens: data.tokens,
         duration: data.duration,
         trigger: "webhook",
-        companyId: data.companyId,
+        customerId: data.customerId,
         agentId: data.agentId,
         payload: data.payload as any,
         metadata: data.metadata as any,

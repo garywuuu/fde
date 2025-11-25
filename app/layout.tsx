@@ -3,7 +3,7 @@ import { Providers } from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FDE Workflow Platform",
+  title: "Orbital",
   description: "Consolidated platform for Forward Deployed Engineers",
 };
 

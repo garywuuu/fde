@@ -13,7 +13,7 @@ interface Task {
   status: string;
   priority: string | null;
   dueDate: string | null;
-  company: {
+  customer: {
     id: string;
     name: string;
   } | null;
@@ -127,7 +127,7 @@ export default function TasksPage() {
                     <p className="text-gray-600 mb-3">{task.description}</p>
                   )}
                   <div className="flex gap-4 text-sm text-gray-500">
-                    {task.company && <span>Company: {task.company.name}</span>}
+                    {task.customer && <span>Customer: {task.customer.name}</span>}
                     {task.integration && <span>Integration: {task.integration.name}</span>}
                     {task.owner && <span>Owner: {task.owner.name || "Unassigned"}</span>}
                     {task.dueDate && (

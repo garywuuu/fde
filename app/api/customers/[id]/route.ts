@@ -17,7 +17,7 @@ export async function GET(
   try {
     const user = await requireAuth();
     const { id } = await params;
-    const company = await prisma.company.findFirst({
+    const customer = await prisma.customer.findFirst({
       where: {
         id: id,
         organizationId: (user as any).organizationId,
@@ -86,11 +86,11 @@ export async function GET(
       },
     });
 
-    if (!company) {
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    if (!customer) {
+      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ company });
+    return NextResponse.json({ customer });
   } catch (error: any) {
     if (error.message === "Unauthorized") {
       return unauthorizedResponse();
@@ -112,18 +112,18 @@ export async function PATCH(
     const body = await req.json();
     const data = updateSchema.parse(body);
 
-    const company = await prisma.company.findFirst({
+    const customer = await prisma.customer.findFirst({
       where: {
         id: id,
         organizationId: (user as any).organizationId,
       },
     });
 
-    if (!company) {
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    if (!customer) {
+      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
 
-    const updated = await prisma.company.update({
+    const updated = await prisma.customer.update({
       where: { id: id },
       data,
       include: {
@@ -137,7 +137,7 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({ company: updated });
+    return NextResponse.json({ customer: updated });
   } catch (error: any) {
     if (error.message === "Unauthorized") {
       return unauthorizedResponse();
@@ -163,18 +163,18 @@ export async function DELETE(
     const user = await requireAuth();
     const { id } = await params;
 
-    const company = await prisma.company.findFirst({
+    const customer = await prisma.customer.findFirst({
       where: {
         id: id,
         organizationId: (user as any).organizationId,
       },
     });
 
-    if (!company) {
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    if (!customer) {
+      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
     }
 
-    await prisma.company.delete({
+    await prisma.customer.delete({
       where: { id: id },
     });
 

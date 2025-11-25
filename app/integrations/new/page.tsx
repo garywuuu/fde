@@ -13,29 +13,29 @@ function NewIntegrationForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const [companies, setCompanies] = useState<any[]>([]);
+  const [customers, setCustomers] = useState<any[]>([]);
   const [formData, setFormData] = useState({
-    companyId: "",
+    customerId: "",
     name: "",
     status: "discovery",
     phase: "discovery",
   });
 
   useEffect(() => {
-    async function loadCompanies() {
+    async function loadCustomers() {
       try {
-        const res = await fetch("/api/companies");
+        const res = await fetch("/api/customers");
         const data = await res.json();
-        setCompanies(data.companies || []);
-        const companyId = searchParams.get("companyId");
-        if (companyId) {
-          setFormData(prev => ({ ...prev, companyId }));
+        setCustomers(data.customers || []);
+        const customerId = searchParams.get("customerId");
+        if (customerId) {
+          setFormData(prev => ({ ...prev, customerId }));
         }
       } catch (error) {
-        console.error("Failed to load companies:", error);
+        console.error("Failed to load customers:", error);
       }
     }
-    loadCompanies();
+    loadCustomers();
   }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -69,20 +69,20 @@ function NewIntegrationForm() {
         <Card title="New Integration">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="companyId" className="block text-sm font-medium text-gray-700 mb-2">
-                Company *
+              <label htmlFor="customerId" className="block text-sm font-medium text-gray-700 mb-2">
+                Customer *
               </label>
               <select
-                id="companyId"
+                id="customerId"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.companyId}
-                onChange={(e) => setFormData({ ...formData, companyId: e.target.value })}
+                value={formData.customerId}
+                onChange={(e) => setFormData({ ...formData, customerId: e.target.value })}
                 required
               >
-                <option value="">Select a company</option>
-                {companies.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.name}
+                <option value="">Select a customer</option>
+                {customers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
                   </option>
                 ))}
               </select>

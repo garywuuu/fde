@@ -15,8 +15,8 @@ export async function GET(req: NextRequest) {
     const organizationId = (user as any).organizationId;
 
     // Search across multiple entities
-    const [companies, integrations, tasks, notes] = await Promise.all([
-      prisma.company.findMany({
+    const [customers, integrations, tasks, notes] = await Promise.all([
+      prisma.customer.findMany({
         where: {
           organizationId,
           name: { contains: query, mode: "insensitive" },
@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       results: {
-        companies,
+        customers,
         integrations,
         tasks,
         notes,

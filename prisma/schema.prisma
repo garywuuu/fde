@@ -1,4 +1,4 @@
-// FDE Workflow Platform Database Schema
+// Orbital Platform Database Schema
 
 generator client {
   provider = "prisma-client-js"
@@ -18,7 +18,7 @@ model Organization {
   updatedAt DateTime @updatedAt
 
   users         User[]
-  companies     Company[]
+  customers     Customer[]
   integrations Integration[]
   pipelines    Pipeline[]
   agents        Agent[]
@@ -42,7 +42,7 @@ model User {
   updatedAt      DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  companies    Company[]     @relation("CompanyOwner")
+  customers    Customer[]     @relation("CustomerOwner")
   integrations Integration[]
   tasks        Task[]
   notes        Note[]
@@ -92,8 +92,8 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// Companies (clients)
-model Company {
+// Customers (clients)
+model Customer {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
   name           String
@@ -104,7 +104,7 @@ model Company {
   updatedAt      DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  owner        User?        @relation("CompanyOwner", fields: [ownerId], references: [id])
+  owner        User?        @relation("CustomerOwner", fields: [ownerId], references: [id])
   integrations Integration[]
   pipelines    Pipeline[]
   agents        Agent[]
@@ -112,7 +112,7 @@ model Company {
   tasks         Task[]
   evalRuns      EvalRun[]
 
-  @@map("companies")
+  @@map("customers")
 }
 
 // Integration Templates
@@ -135,7 +135,7 @@ model IntegrationTemplate {
 model Integration {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
-  companyId      String   @map("company_id")
+  customerId      String   @map("customer_id")
   templateId     String?  @map("template_id")
   name           String
   status         String   @default("discovery") // discovery, build, pilot, launch
@@ -145,7 +145,7 @@ model Integration {
   updatedAt      DateTime @updatedAt
 
   organization Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  company      Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer      Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
   template     IntegrationTemplate? @relation(fields: [templateId], references: [id])
   owner        User?                @relation(fields: [ownerId], references: [id])
   checklistItems ChecklistItem[]
@@ -192,7 +192,7 @@ model ArtifactLink {
 model Pipeline {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
-  companyId      String   @map("company_id")
+  customerId      String   @map("customer_id")
   name           String
   type           String   // ingest, transform, eval
   lastRunAt      DateTime? @map("last_run_at")
@@ -202,7 +202,7 @@ model Pipeline {
   updatedAt      DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  company      Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@map("pipelines")
 }
@@ -211,7 +211,7 @@ model Pipeline {
 model Agent {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
-  companyId      String   @map("company_id")
+  customerId      String   @map("customer_id")
   name           String
   purpose        String?
   model          String?
@@ -222,7 +222,7 @@ model Agent {
   updatedAt      DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  company      Company      @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
   @@map("agents")
 }
@@ -231,7 +231,7 @@ model Agent {
 model EvalRun {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
-  companyId      String?  @map("company_id")
+  customerId      String?  @map("customer_id")
   agentId        String?  @map("agent_id")
   suite          String   // Suite name
   dataset        String?
@@ -246,7 +246,7 @@ model EvalRun {
   createdAt      DateTime @default(now())
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  company      Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  customer      Customer?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
 
   @@map("eval_runs")
 }
@@ -254,7 +254,7 @@ model EvalRun {
 // Tasks
 model Task {
   id            String   @id @default(uuid())
-  companyId     String?  @map("company_id")
+  customerId     String?  @map("customer_id")
   integrationId String?  @map("integration_id")
   ownerId       String?  @map("owner_id")
   title         String
@@ -267,7 +267,7 @@ model Task {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  company      Company?      @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  customer      Customer?      @relation(fields: [customerId], references: [id], onDelete: SetNull)
   integration Integration?  @relation(fields: [integrationId], references: [id], onDelete: SetNull)
   owner       User?         @relation(fields: [ownerId], references: [id], onDelete: SetNull)
 
@@ -277,7 +277,7 @@ model Task {
 // Notes (meeting notes, proposals, updates)
 model Note {
   id            String   @id @default(uuid())
-  companyId     String?  @map("company_id")
+  customerId     String?  @map("customer_id")
   authorId      String   @map("author_id")
   title         String
   content       String   // Rich text content
@@ -290,7 +290,7 @@ model Note {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
   author  User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@map("notes")

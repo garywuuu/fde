@@ -25,7 +25,7 @@ export async function GET(
         },
       },
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -87,7 +87,7 @@ export async function PATCH(
         version: note.version + 1,
       },
       include: {
-        company: true,
+        customer: true,
         author: true,
       },
     });

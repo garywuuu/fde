@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 
-export default function NewCompanyPage() {
+export default function NewCustomerPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -20,7 +20,7 @@ export default function NewCompanyPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/companies", {
+      const res = await fetch("/api/customers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -28,14 +28,14 @@ export default function NewCompanyPage() {
 
       if (res.ok) {
         const data = await res.json();
-        router.push(`/companies/${data.company.id}`);
+        router.push(`/customers/${data.customer.id}`);
       } else {
         const error = await res.json();
-        alert(error.error || "Failed to create company");
+        alert(error.error || "Failed to create customer");
       }
     } catch (error) {
-      console.error("Error creating company:", error);
-      alert("Failed to create company");
+      console.error("Error creating customer:", error);
+      alert("Failed to create customer");
     } finally {
       setLoading(false);
     }
@@ -44,13 +44,13 @@ export default function NewCompanyPage() {
   return (
     <Layout>
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Add New Company</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8">Add New Customer</h1>
 
         <Card>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Company Name *
+                Customer Name *
               </label>
               <Input
                 id="name"
@@ -81,7 +81,7 @@ export default function NewCompanyPage() {
 
             <div className="flex gap-4">
               <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Company"}
+                {loading ? "Creating..." : "Create Customer"}
               </Button>
               <Button
                 type="button"

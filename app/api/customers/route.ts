@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAuth, unauthorizedResponse } from "@/lib/auth-helpers";
 import { z } from "zod";
 
-const companySchema = z.object({
+const customerSchema = z.object({
   name: z.string().min(1),
   stage: z.enum(["discovery", "pilot", "rollout", "live"]).optional(),
   successMetrics: z.record(z.any()).optional(),
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   try {
     const user = await requireAuth();
     
-    const companies = await prisma.company.findMany({
+    const customers = await prisma.customer.findMany({
       where: {
         organizationId: (user as any).organizationId,
       },
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ companies });
+    return NextResponse.json({ customers });
   } catch (error: any) {
     if (error.message === "Unauthorized") {
       return unauthorizedResponse();
@@ -53,9 +53,9 @@ export async function POST(req: NextRequest) {
   try {
     const user = await requireAuth();
     const body = await req.json();
-    const data = companySchema.parse(body);
+    const data = customerSchema.parse(body);
 
-    const company = await prisma.company.create({
+    const customer = await prisma.customer.create({
       data: {
         ...data,
         organizationId: (user as any).organizationId,
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ company }, { status: 201 });
+    return NextResponse.json({ customer }, { status: 201 });
   } catch (error: any) {
     if (error.message === "Unauthorized") {
       return unauthorizedResponse();

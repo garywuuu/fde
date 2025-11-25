@@ -48,7 +48,7 @@ export default function RegisterPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
-          <p className="mt-2 text-gray-600">Get started with FDE Platform</p>
+          <p className="mt-2 text-gray-600">Get started with Orbital</p>
         </div>
 
         <Card>

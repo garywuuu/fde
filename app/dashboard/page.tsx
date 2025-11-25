@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 
 interface DashboardStats {
-  companies: number;
+  customers: number;
   integrations: number;
   tasks: number;
   notes: number;
@@ -14,7 +14,7 @@ interface DashboardStats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats>({
-    companies: 0,
+    customers: 0,
     integrations: 0,
     tasks: 0,
     notes: 0,
@@ -24,20 +24,20 @@ export default function DashboardPage() {
   useEffect(() => {
     async function loadStats() {
       try {
-        const [companiesRes, integrationsRes, tasksRes, notesRes] = await Promise.all([
-          fetch("/api/companies"),
+        const [customersRes, integrationsRes, tasksRes, notesRes] = await Promise.all([
+          fetch("/api/customers"),
           fetch("/api/integrations"),
           fetch("/api/tasks"),
           fetch("/api/notes"),
         ]);
 
-        const companies = await companiesRes.json();
+        const customers = await customersRes.json();
         const integrations = await integrationsRes.json();
         const tasks = await tasksRes.json();
         const notes = await notesRes.json();
 
         setStats({
-          companies: companies.companies?.length || 0,
+          customers: customers.customers?.length || 0,
           integrations: integrations.integrations?.length || 0,
           tasks: tasks.tasks?.length || 0,
           notes: notes.notes?.length || 0,
@@ -67,15 +67,15 @@ export default function DashboardPage() {
     <Layout>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-gray-600">Overview of your FDE workflows</p>
+        <p className="mt-2 text-gray-600">Overview of your Orbital workspace</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Companies</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stats.companies}</p>
+              <p className="text-sm font-medium text-gray-600">Customers</p>
+              <p className="text-3xl font-bold text-gray-900 mt-2">{stats.customers}</p>
             </div>
             <div className="p-3 bg-blue-100 rounded-lg">
               <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ export default function DashboardPage() {
               </svg>
             </div>
           </div>
-          <Link href="/companies" className="text-blue-600 text-sm font-medium mt-4 inline-block hover:underline">
+          <Link href="/customers" className="text-blue-600 text-sm font-medium mt-4 inline-block hover:underline">
             View all →
           </Link>
         </Card>
@@ -143,8 +143,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card title="Quick Actions">
           <div className="space-y-3">
-            <Link href="/companies/new" className="block p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors">
-              <p className="font-medium text-gray-900">Add New Company</p>
+            <Link href="/customers/new" className="block p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors">
+              <p className="font-medium text-gray-900">Add New Customer</p>
               <p className="text-sm text-gray-500 mt-1">Create a new client workspace</p>
             </Link>
             <Link href="/integrations/new" className="block p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors">

@@ -11,7 +11,7 @@ interface Integration {
   name: string;
   status: string;
   phase: string;
-  company: {
+  customer: {
     id: string;
     name: string;
   };
@@ -95,7 +95,7 @@ export default function IntegrationsPage() {
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-3">
-                    Company: <Link href={`/companies/${integration.company.id}`} className="text-blue-600 hover:underline">{integration.company.name}</Link>
+                    Customer: <Link href={`/customers/${integration.customer.id}`} className="text-blue-600 hover:underline">{integration.customer.name}</Link>
                   </p>
                   <div className="flex gap-6 text-sm text-gray-500">
                     <span>Checklist: {integration._count.checklistItems} items</span>

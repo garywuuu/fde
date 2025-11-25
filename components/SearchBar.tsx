@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 
 interface SearchResults {
-  companies: Array<{ id: string; name: string; stage: string }>;
+  customers: Array<{ id: string; name: string; stage: string }>;
   integrations: Array<{ id: string; name: string; status: string }>;
   tasks: Array<{ id: string; title: string; status: string }>;
   notes: Array<{ id: string; title: string; type: string }>;
@@ -63,7 +63,7 @@ export function SearchBar() {
   };
 
   const totalResults =
-    (results?.companies.length || 0) +
+    (results?.customers.length || 0) +
     (results?.integrations.length || 0) +
     (results?.tasks.length || 0) +
     (results?.notes.length || 0);
@@ -72,7 +72,7 @@ export function SearchBar() {
     <div ref={searchRef} className="relative w-full max-w-md">
       <Input
         type="text"
-        placeholder="Search companies, integrations, tasks..."
+        placeholder="Search customers, integrations, tasks..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => query.length >= 2 && setShowResults(true)}
@@ -86,18 +86,18 @@ export function SearchBar() {
             <div className="p-4 text-center text-gray-500">No results found</div>
           ) : (
             <div className="p-2">
-              {results?.companies && results.companies.length > 0 && (
+              {results?.customers && results.customers.length > 0 && (
                 <div className="mb-2">
                   <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase">
-                    Companies
+                    Customers
                   </div>
-                  {results.companies.map((company) => (
+                  {results.customers.map((customer) => (
                     <button
-                      key={company.id}
-                      onClick={() => navigateTo("companies", company.id)}
+                      key={customer.id}
+                      onClick={() => navigateTo("customers", customer.id)}
                       className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded text-sm"
                     >
-                      {company.name}
+                      {customer.name}
                     </button>
                   ))}
                 </div>

@@ -15,7 +15,7 @@ interface Note {
   clientVisible: boolean;
   shareableLink: string | null;
   version: number;
-  company: {
+  customer: {
     id: string;
     name: string;
   } | null;
@@ -96,9 +96,9 @@ export default function NoteDetailPage() {
                     Client Visible
                   </span>
                 )}
-                {note.company && (
-                  <Link href={`/companies/${note.company.id}`} className="text-blue-600 hover:underline text-sm">
-                    {note.company.name}
+                {note.customer && (
+                  <Link href={`/customers/${note.customer.id}`} className="text-blue-600 hover:underline text-sm">
+                    {note.customer.name}
                   </Link>
                 )}
               </div>

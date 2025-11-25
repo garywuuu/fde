@@ -4,7 +4,7 @@ import { requireAuth, unauthorizedResponse } from "@/lib/auth-helpers";
 import { z } from "zod";
 
 const evalRunSchema = z.object({
-  companyId: z.string().uuid().optional(),
+  customerId: z.string().uuid().optional(),
   agentId: z.string().uuid().optional(),
   suite: z.string().min(1),
   dataset: z.string().optional(),
@@ -22,15 +22,15 @@ export async function GET(req: NextRequest) {
   try {
     const user = await requireAuth();
     const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
+    const customerId = searchParams.get("customerId");
     const suite = searchParams.get("suite");
 
     const where: any = {
       organizationId: (user as any).organizationId,
     };
 
-    if (companyId) {
-      where.companyId = companyId;
+    if (customerId) {
+      where.customerId = customerId;
     }
 
     if (suite) {
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     const evalRuns = await prisma.evalRun.findMany({
       where,
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -71,18 +71,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = evalRunSchema.parse(body);
 
-    // Verify company belongs to user's organization if provided
-    if (data.companyId) {
-      const company = await prisma.company.findFirst({
+    // Verify customer belongs to user's organization if provided
+    if (data.customerId) {
+      const customer = await prisma.customer.findFirst({
         where: {
-          id: data.companyId,
+          id: data.customerId,
           organizationId: (user as any).organizationId,
         },
       });
 
-      if (!company) {
+      if (!customer) {
         return NextResponse.json(
-          { error: "Company not found" },
+          { error: "Customer not found" },
           { status: 404 }
         );
       }
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
         organizationId: (user as any).organizationId,
       },
       include: {
-        company: true,
+        customer: true,
       },
     });
 

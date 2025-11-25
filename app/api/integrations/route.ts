@@ -4,7 +4,7 @@ import { requireAuth, unauthorizedResponse } from "@/lib/auth-helpers";
 import { z } from "zod";
 
 const integrationSchema = z.object({
-  companyId: z.string().uuid(),
+  customerId: z.string().uuid(),
   templateId: z.string().uuid().optional(),
   name: z.string().min(1),
   status: z.enum(["discovery", "build", "pilot", "launch"]).optional(),
@@ -15,20 +15,20 @@ export async function GET(req: NextRequest) {
   try {
     const user = await requireAuth();
     const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
+    const customerId = searchParams.get("customerId");
 
     const where: any = {
       organizationId: (user as any).organizationId,
     };
 
-    if (companyId) {
-      where.companyId = companyId;
+    if (customerId) {
+      where.customerId = customerId;
     }
 
     const integrations = await prisma.integration.findMany({
       where,
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -79,17 +79,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = integrationSchema.parse(body);
 
-    // Verify company belongs to user's organization
-    const company = await prisma.company.findFirst({
+    // Verify customer belongs to user's organization
+    const customer = await prisma.customer.findFirst({
       where: {
-        id: data.companyId,
+        id: data.customerId,
         organizationId: (user as any).organizationId,
       },
     });
 
-    if (!company) {
+    if (!customer) {
       return NextResponse.json(
-        { error: "Company not found" },
+        { error: "Customer not found" },
         { status: 404 }
       );
     }
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
         ownerId: user.id,
       },
       include: {
-        company: true,
+        customer: true,
         owner: true,
         template: true,
       },

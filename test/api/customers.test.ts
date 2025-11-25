@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
-import { GET, POST } from '@/app/api/companies/route';
+import { GET, POST } from '@/app/api/customers/route';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth-helpers';
 
 vi.mock('@/lib/prisma', () => ({
   prisma: {
-    company: {
+    customer: {
       findMany: vi.fn(),
       create: vi.fn(),
     },
@@ -18,21 +18,21 @@ vi.mock('@/lib/auth-helpers', () => ({
   unauthorizedResponse: vi.fn(() => new Response(null, { status: 401 })),
 }));
 
-describe('/api/companies', () => {
+describe('/api/customers', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   describe('GET', () => {
-    it('should return companies for authenticated user', async () => {
+    it('should return customers for authenticated user', async () => {
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
       };
 
-      const mockCompanies = [
+      const mockCustomers = [
         {
-          id: 'company-1',
+          id: 'customer-1',
           name: 'Acme Corp',
           stage: 'live',
           organizationId: 'org-1',
@@ -42,16 +42,16 @@ describe('/api/companies', () => {
       ];
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
-      vi.mocked(prisma.company.findMany).mockResolvedValue(mockCompanies as any);
+      vi.mocked(prisma.customer.findMany).mockResolvedValue(mockCustomers as any);
 
-      const request = new NextRequest('http://localhost/api/companies');
+      const request = new NextRequest('http://localhost/api/customers');
       const response = await GET(request);
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data.companies).toHaveLength(1);
-      expect(data.companies[0].name).toBe('Acme Corp');
-      expect(prisma.company.findMany).toHaveBeenCalledWith({
+      expect(data.customers).toHaveLength(1);
+      expect(data.customers[0].name).toBe('Acme Corp');
+      expect(prisma.customer.findMany).toHaveBeenCalledWith({
         where: { organizationId: 'org-1' },
         include: expect.any(Object),
         orderBy: { updatedAt: 'desc' },
@@ -61,7 +61,7 @@ describe('/api/companies', () => {
     it('should return 401 when not authenticated', async () => {
       vi.mocked(requireAuth).mockRejectedValue(new Error('Unauthorized'));
 
-      const request = new NextRequest('http://localhost/api/companies');
+      const request = new NextRequest('http://localhost/api/customers');
       const response = await GET(request);
 
       expect(response.status).toBe(401);
@@ -69,15 +69,15 @@ describe('/api/companies', () => {
   });
 
   describe('POST', () => {
-    it('should create a new company', async () => {
+    it('should create a new customer', async () => {
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
       };
 
-      const mockCompany = {
-        id: 'company-1',
-        name: 'New Company',
+      const mockCustomer = {
+        id: 'customer-1',
+        name: 'New Customer',
         stage: 'discovery',
         organizationId: 'org-1',
         ownerId: 'user-1',
@@ -85,12 +85,12 @@ describe('/api/companies', () => {
       };
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
-      vi.mocked(prisma.company.create).mockResolvedValue(mockCompany as any);
+      vi.mocked(prisma.customer.create).mockResolvedValue(mockCustomer as any);
 
-      const request = new NextRequest('http://localhost/api/companies', {
+      const request = new NextRequest('http://localhost/api/customers', {
         method: 'POST',
         body: JSON.stringify({
-          name: 'New Company',
+          name: 'New Customer',
           stage: 'discovery',
         }),
       });
@@ -99,10 +99,10 @@ describe('/api/companies', () => {
       const data = await response.json();
 
       expect(response.status).toBe(201);
-      expect(data.company.name).toBe('New Company');
-      expect(prisma.company.create).toHaveBeenCalledWith({
+      expect(data.customer.name).toBe('New Customer');
+      expect(prisma.customer.create).toHaveBeenCalledWith({
         data: {
-          name: 'New Company',
+          name: 'New Customer',
           stage: 'discovery',
           organizationId: 'org-1',
           ownerId: 'user-1',
@@ -119,7 +119,7 @@ describe('/api/companies', () => {
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
 
-      const request = new NextRequest('http://localhost/api/companies', {
+      const request = new NextRequest('http://localhost/api/customers', {
         method: 'POST',
         body: JSON.stringify({
           name: '', // Invalid: empty name

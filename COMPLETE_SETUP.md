@@ -174,7 +174,7 @@ DATABASE_URL=$(grep DATABASE_URL .env.production | cut -d '=' -f2) npx prisma mi
 1. Visit your Vercel URL: `https://your-project-name.vercel.app`
 2. You should see the sign-in page
 3. Click **"Register here"** to create an account
-4. Test creating a company, integration, task, or note
+4. Test creating a customer, integration, task, or note
 
 ### Step 5.3: Verify Database Connection
 
@@ -261,7 +261,7 @@ npx prisma generate          # Generate Prisma Client
 - [ ] Prisma migrations run on production database
 - [ ] App accessible at Vercel URL
 - [ ] Can register and login
-- [ ] Can create data (companies, integrations, etc.)
+- [ ] Can create data (customers, integrations, etc.)
 
 ---
 

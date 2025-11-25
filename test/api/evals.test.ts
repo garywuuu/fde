@@ -11,7 +11,7 @@ vi.mock('@/lib/prisma', () => ({
       findMany: vi.fn(),
       create: vi.fn(),
     },
-    company: {
+    customer: {
       findFirst: vi.fn(),
       findUnique: vi.fn(),
     },
@@ -42,7 +42,7 @@ describe('/api/evals', () => {
           passRate: 0.95,
           totalTests: 100,
           passedTests: 95,
-          company: { id: 'company-1', name: 'Acme' },
+          customer: { id: 'customer-1', name: 'Acme' },
         },
       ];
 
@@ -69,7 +69,7 @@ describe('/api/evals', () => {
         organizationId: 'org-1',
       };
 
-      const mockCompany = {
+      const mockCustomer = {
         id: '550e8400-e29b-41d4-a716-446655440000',
         organizationId: 'org-1',
       };
@@ -84,11 +84,11 @@ describe('/api/evals', () => {
       };
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
-      vi.mocked(prisma.company.findFirst).mockResolvedValue(mockCompany as any);
+      vi.mocked(prisma.customer.findFirst).mockResolvedValue(mockCustomer as any);
       vi.mocked(prisma.evalRun.create).mockResolvedValue(mockEvalRun as any);
 
       const body = {
-        companyId: '550e8400-e29b-41d4-a716-446655440000',
+        customerId: '550e8400-e29b-41d4-a716-446655440000',
         suite: 'agent-eval',
         passRate: 0.95,
         totalTests: 100,
@@ -111,8 +111,8 @@ describe('/api/evals/report', () => {
   });
 
   it('should accept webhook payload and create eval run', async () => {
-    const mockCompany = {
-      id: 'company-1',
+    const mockCustomer = {
+      id: 'customer-1',
       organizationId: 'org-1',
     };
 
@@ -122,7 +122,7 @@ describe('/api/evals/report', () => {
       trigger: 'webhook',
     };
 
-    vi.mocked(prisma.company.findUnique).mockResolvedValue(mockCompany as any);
+    vi.mocked(prisma.customer.findUnique).mockResolvedValue(mockCustomer as any);
     vi.mocked(prisma.evalRun.create).mockResolvedValue(mockEvalRun as any);
 
       const body = {
@@ -130,7 +130,7 @@ describe('/api/evals/report', () => {
         passRate: 0.95,
         totalTests: 100,
         passedTests: 95,
-        companyId: '550e8400-e29b-41d4-a716-446655440000',
+        customerId: '550e8400-e29b-41d4-a716-446655440000',
       };
 
       const request = {
@@ -144,15 +144,15 @@ describe('/api/evals/report', () => {
     expect(data.success).toBe(true);
   });
 
-  it('should return 400 when company not found', async () => {
-    vi.mocked(prisma.company.findUnique).mockResolvedValue(null);
+  it('should return 400 when customer not found', async () => {
+    vi.mocked(prisma.customer.findUnique).mockResolvedValue(null);
 
       const body = {
         suite: 'agent-eval',
         passRate: 0.95,
         totalTests: 100,
         passedTests: 95,
-        companyId: '550e8400-e29b-41d4-a716-446655440001', // Valid UUID but company doesn't exist
+        customerId: '550e8400-e29b-41d4-a716-446655440001', // Valid UUID but customer doesn't exist
       };
 
       const request = {

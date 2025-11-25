@@ -13,7 +13,7 @@ interface Note {
   type: string;
   clientVisible: boolean;
   shareableLink: string | null;
-  company: {
+  customer: {
     id: string;
     name: string;
   } | null;
@@ -100,8 +100,8 @@ export default function NotesPage() {
                   </div>
                   <p className="text-gray-600 mb-3 line-clamp-2">{note.content}</p>
                   <div className="flex gap-4 text-sm text-gray-500">
-                    {note.company && (
-                      <span>Company: <Link href={`/companies/${note.company.id}`} className="text-blue-600 hover:underline">{note.company.name}</Link></span>
+                    {note.customer && (
+                      <span>Customer: <Link href={`/customers/${note.customer.id}`} className="text-blue-600 hover:underline">{note.customer.name}</Link></span>
                     )}
                     <span>Author: {note.author.name || note.author.email}</span>
                     <span>Created: {new Date(note.createdAt).toLocaleDateString()}</span>

@@ -35,7 +35,7 @@ export async function PATCH(
       where: { id: id },
       data,
       include: {
-        company: true,
+        customer: true,
         integration: true,
         owner: true,
       },

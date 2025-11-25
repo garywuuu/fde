@@ -27,7 +27,7 @@ export async function GET(
         },
       },
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -95,7 +95,7 @@ export async function PATCH(
         dueDate: data.dueDate !== undefined ? (data.dueDate ? new Date(data.dueDate) : null) : undefined,
       },
       include: {
-        company: true,
+        customer: true,
         integration: true,
         owner: true,
       },

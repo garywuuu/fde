@@ -4,7 +4,7 @@ import { requireAuth, unauthorizedResponse } from "@/lib/auth-helpers";
 import { z } from "zod";
 
 const taskSchema = z.object({
-  companyId: z.string().uuid().optional(),
+  customerId: z.string().uuid().optional(),
   integrationId: z.string().uuid().optional(),
   title: z.string().min(1),
   description: z.string().optional(),
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   try {
     const user = await requireAuth();
     const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
+    const customerId = searchParams.get("customerId");
     const status = searchParams.get("status");
 
     const where: any = {
@@ -27,8 +27,8 @@ export async function GET(req: NextRequest) {
       },
     };
 
-    if (companyId) {
-      where.companyId = companyId;
+    if (customerId) {
+      where.customerId = customerId;
     }
 
     if (status) {
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     const tasks = await prisma.task.findMany({
       where,
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
       },
       include: {
-        company: true,
+        customer: true,
         integration: true,
         owner: true,
       },

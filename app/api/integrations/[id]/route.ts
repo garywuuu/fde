@@ -23,7 +23,7 @@ export async function GET(
         organizationId: (user as any).organizationId,
       },
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -104,7 +104,7 @@ export async function PATCH(
       where: { id: id },
       data,
       include: {
-        company: true,
+        customer: true,
         owner: true,
       },
     });

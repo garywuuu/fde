@@ -36,7 +36,7 @@ describe('/api/notes', () => {
           title: 'Meeting Notes',
           content: 'Discussion about integration',
           type: 'meeting',
-          company: { id: 'company-1', name: 'Acme' },
+          customer: { id: 'customer-1', name: 'Acme' },
           author: { id: 'user-1', name: 'John' },
         },
       ];
@@ -53,7 +53,7 @@ describe('/api/notes', () => {
       expect(data.notes[0].title).toBe('Meeting Notes');
     });
 
-    it('should filter by companyId when provided', async () => {
+    it('should filter by customerId when provided', async () => {
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
@@ -62,13 +62,13 @@ describe('/api/notes', () => {
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
       vi.mocked(prisma.note.findMany).mockResolvedValue([]);
 
-      const request = new NextRequest('http://localhost/api/notes?companyId=company-1');
+      const request = new NextRequest('http://localhost/api/notes?customerId=customer-1');
       await GET(request);
 
       expect(prisma.note.findMany).toHaveBeenCalledWith({
         where: {
           author: { organizationId: 'org-1' },
-          companyId: 'company-1',
+          customerId: 'customer-1',
         },
         include: expect.any(Object),
         orderBy: { updatedAt: 'desc' },

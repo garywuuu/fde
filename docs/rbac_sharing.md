@@ -2,7 +2,7 @@
 
 ## Roles & Permissions
 1. **FDE**
-   - Full edit access to assigned companies, integrations, evals, notes.
+   - Full edit access to assigned customers, integrations, evals, notes.
    - Can invite customers with restricted scopes.
    - Can trigger automations (eval reruns, task generation).
 2. **Solutions Architect / Leadership**
@@ -21,7 +21,7 @@
 - Feature gating via `entitlements` table (e.g., AI copilot beta, pipeline health).
 
 ## Client Portal Experience
-- Shareable subdomain (client.company.workflows.app) with SSO magic links.
+- Shareable subdomain (client.customer.workflows.app) with SSO magic links.
 - Modules exposed: status dashboard, agreed deliverables, eval report summaries, ticket timeline.
 - Downloadable reports + ability to comment/acknowledge milestones.
 - Audit logging whenever customers view/export data.

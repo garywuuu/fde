@@ -4,7 +4,7 @@ import { requireAuth, unauthorizedResponse } from "@/lib/auth-helpers";
 import { z } from "zod";
 
 const noteSchema = z.object({
-  companyId: z.string().uuid().optional(),
+  customerId: z.string().uuid().optional(),
   title: z.string().min(1),
   content: z.string(),
   type: z.enum(["note", "proposal", "update", "meeting"]).optional(),
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   try {
     const user = await requireAuth();
     const { searchParams } = new URL(req.url);
-    const companyId = searchParams.get("companyId");
+    const customerId = searchParams.get("customerId");
     const type = searchParams.get("type");
 
     const where: any = {
@@ -25,8 +25,8 @@ export async function GET(req: NextRequest) {
       },
     };
 
-    if (companyId) {
-      where.companyId = companyId;
+    if (customerId) {
+      where.customerId = customerId;
     }
 
     if (type) {
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
     const notes = await prisma.note.findMany({
       where,
       include: {
-        company: {
+        customer: {
           select: {
             id: true,
             name: true,
@@ -85,12 +85,12 @@ export async function POST(req: NextRequest) {
     
     if (data.type) createData.type = data.type;
     if (data.clientVisible !== undefined) createData.clientVisible = data.clientVisible;
-    if (data.companyId) createData.companyId = data.companyId;
+    if (data.customerId) createData.customerId = data.customerId;
 
     const note = await prisma.note.create({
       data: createData,
       include: {
-        company: true,
+        customer: true,
         author: true,
       },
     });

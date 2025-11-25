@@ -35,7 +35,7 @@ Visit **http://localhost:3000**
 ## 📝 First Steps
 
 1. **Register**: Go to `/auth/register` and create your account
-2. **Create Company**: Add your first client company
+2. **Create Customer**: Add your first client customer
 3. **Add Integration**: Track a customer integration
 4. **Create Tasks**: Start managing your work items
 5. **Take Notes**: Document meetings and proposals
@@ -70,7 +70,7 @@ npm run db:push          # Push schema changes
 ## 🎯 Features
 
 - ✅ User authentication & authorization
-- ✅ Company management
+- ✅ Customer management
 - ✅ Integration tracking with checklists
 - ✅ Task management
 - ✅ Notes with versioning

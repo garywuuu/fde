@@ -28,7 +28,7 @@ interface Integration {
   name: string;
   status: string;
   phase: string;
-  company: {
+  customer: {
     id: string;
     name: string;
   };
@@ -124,8 +124,8 @@ export default function IntegrationDetailPage() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{integration.name}</h1>
             <p className="mt-2 text-gray-600">
-              <Link href={`/companies/${integration.company.id}`} className="text-blue-600 hover:underline">
-                {integration.company.name}
+              <Link href={`/customers/${integration.customer.id}`} className="text-blue-600 hover:underline">
+                {integration.customer.name}
               </Link>
               {" • "}
               <span className={`inline-block px-3 py-1 text-sm font-medium rounded ${

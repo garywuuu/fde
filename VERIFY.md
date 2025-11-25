@@ -36,11 +36,11 @@ npm test
 - [ ] Sign in at http://localhost:3000/auth/signin
 - [ ] Verify redirect to dashboard
 
-#### Companies
-- [ ] Navigate to Companies page
-- [ ] Create a new company
-- [ ] View company details
-- [ ] Edit company information
+#### Customers
+- [ ] Navigate to Customers page
+- [ ] Create a new customer
+- [ ] View customer details
+- [ ] Edit customer information
 
 #### Integrations
 - [ ] Create a new integration
@@ -62,7 +62,7 @@ npm test
 
 #### Search
 - [ ] Use search bar in navigation
-- [ ] Search for companies
+- [ ] Search for customers
 - [ ] Search for tasks
 - [ ] Verify search results
 
@@ -76,8 +76,8 @@ npm test
 ```bash
 # After registering and logging in, test APIs:
 
-# Get companies (requires auth)
-curl http://localhost:3000/api/companies
+# Get customers (requires auth)
+curl http://localhost:3000/api/customers
 
 # Get tasks
 curl http://localhost:3000/api/tasks

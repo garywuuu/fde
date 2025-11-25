@@ -1,4 +1,4 @@
-# 🎉 FDE Workflow Platform - Status Report
+# 🎉 Orbital - Status Report
 
 ## ✅ Everything is Working!
 
@@ -20,7 +20,7 @@
 
 ### Application Features
 - ✅ Authentication (Register/Login)
-- ✅ Companies Management
+- ✅ Customers Management
 - ✅ Integrations Tracking
 - ✅ Task Management
 - ✅ Notes System
@@ -34,13 +34,13 @@
 
 1. **Open the app**: http://localhost:3000
 2. **Register**: Click "Register" or go to `/auth/register`
-3. **Create your first company**: Navigate to Companies → Add Company
+3. **Create your first customer**: Navigate to Customers → Add Customer
 4. **Start tracking**: Add integrations, tasks, and notes
 
 ### Available Pages
 
 - **Dashboard**: http://localhost:3000/dashboard
-- **Companies**: http://localhost:3000/companies
+- **Customers**: http://localhost:3000/customers
 - **Integrations**: http://localhost:3000/integrations
 - **Tasks**: http://localhost:3000/tasks
 - **Notes**: http://localhost:3000/notes
@@ -103,7 +103,7 @@ See `VERIFY.md` for detailed troubleshooting guide.
 
 - ✅ User registration and authentication
 - ✅ Multi-tenant organization support
-- ✅ Company workspace management
+- ✅ Customer workspace management
 - ✅ Integration tracking with checklists
 - ✅ Task management with status updates
 - ✅ Notes with versioning and sharing

@@ -10,7 +10,7 @@ vi.mock('@/lib/prisma', () => ({
       findMany: vi.fn(),
       create: vi.fn(),
     },
-    company: {
+    customer: {
       findFirst: vi.fn(),
     },
   },
@@ -38,7 +38,7 @@ describe('/api/integrations', () => {
           id: 'integration-1',
           name: 'Customer API',
           status: 'pilot',
-          company: { id: 'company-1', name: 'Acme' },
+          customer: { id: 'customer-1', name: 'Acme' },
           owner: { id: 'user-1', name: 'John' },
           _count: { checklistItems: 5, artifactLinks: 2, tasks: 3 },
         },
@@ -59,7 +59,7 @@ describe('/api/integrations', () => {
       expect(data.integrations[0].name).toBe('Customer API');
     });
 
-    it('should filter by companyId when provided', async () => {
+    it('should filter by customerId when provided', async () => {
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
@@ -69,7 +69,7 @@ describe('/api/integrations', () => {
       vi.mocked(prisma.integration.findMany).mockResolvedValue([]);
 
       const request = {
-        url: 'http://localhost/api/integrations?companyId=company-1',
+        url: 'http://localhost/api/integrations?customerId=customer-1',
       } as NextRequest;
       
       await GET(request);
@@ -77,7 +77,7 @@ describe('/api/integrations', () => {
       expect(prisma.integration.findMany).toHaveBeenCalledWith({
         where: {
           organizationId: 'org-1',
-          companyId: 'company-1',
+          customerId: 'customer-1',
         },
         include: expect.any(Object),
         orderBy: { updatedAt: 'desc' },
@@ -86,34 +86,34 @@ describe('/api/integrations', () => {
   });
 
   describe('POST', () => {
-    it('should create integration when company exists', async () => {
-      const companyId = '550e8400-e29b-41d4-a716-446655440000';
+    it('should create integration when customer exists', async () => {
+      const customerId = '550e8400-e29b-41d4-a716-446655440000';
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
       };
 
-      const mockCompany = {
-        id: companyId,
+      const mockCustomer = {
+        id: customerId,
         organizationId: 'org-1',
       };
 
       const mockIntegration = {
         id: 'integration-1',
         name: 'New Integration',
-        companyId: companyId,
+        customerId: customerId,
         organizationId: 'org-1',
         ownerId: 'user-1',
-        company: mockCompany,
+        customer: mockCustomer,
         owner: mockUser,
       };
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
-      vi.mocked(prisma.company.findFirst).mockResolvedValue(mockCompany as any);
+      vi.mocked(prisma.customer.findFirst).mockResolvedValue(mockCustomer as any);
       vi.mocked(prisma.integration.create).mockResolvedValue(mockIntegration as any);
 
       const body = {
-        companyId: companyId,
+        customerId: customerId,
         name: 'New Integration',
         status: 'discovery' as const,
       };
@@ -126,20 +126,20 @@ describe('/api/integrations', () => {
       expect(response.status).toBe(201);
     });
 
-    it('should return 404 when company not found', async () => {
+    it('should return 404 when customer not found', async () => {
       const mockUser = {
         id: 'user-1',
         organizationId: 'org-1',
       };
 
       vi.mocked(requireAuth).mockResolvedValue(mockUser as any);
-      vi.mocked(prisma.company.findFirst).mockResolvedValue(null);
+      vi.mocked(prisma.customer.findFirst).mockResolvedValue(null);
 
       // Use a valid UUID format to pass validation
       const validUUID = '550e8400-e29b-41d4-a716-446655440001'; // Different UUID for not found case
       
       const body = {
-        companyId: validUUID,
+        customerId: validUUID,
         name: 'New Integration',
         status: 'discovery' as const,
       };
@@ -150,9 +150,9 @@ describe('/api/integrations', () => {
 
       const response = await POST(request as NextRequest);
       const data = await response.json();
-      // The API returns 404 when company is not found (after validation passes)
+      // The API returns 404 when customer is not found (after validation passes)
       expect(response.status).toBe(404);
-      expect(data.error).toBe('Company not found');
+      expect(data.error).toBe('Customer not found');
     });
   });
 });

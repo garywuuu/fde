@@ -13,10 +13,10 @@ function NewTaskForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const [companies, setCompanies] = useState<any[]>([]);
+  const [customers, setCustomers] = useState<any[]>([]);
   const [integrations, setIntegrations] = useState<any[]>([]);
   const [formData, setFormData] = useState({
-    companyId: "",
+    customerId: "",
     integrationId: "",
     title: "",
     description: "",
@@ -29,21 +29,21 @@ function NewTaskForm() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [companiesRes, integrationsRes] = await Promise.all([
-          fetch("/api/companies"),
+        const [customersRes, integrationsRes] = await Promise.all([
+          fetch("/api/customers"),
           fetch("/api/integrations"),
         ]);
-        const companiesData = await companiesRes.json();
+        const customersData = await customersRes.json();
         const integrationsData = await integrationsRes.json();
-        setCompanies(companiesData.companies || []);
+        setCustomers(customersData.customers || []);
         setIntegrations(integrationsData.integrations || []);
         // Set IDs from URL params
-        const companyId = searchParams.get("companyId");
+        const customerId = searchParams.get("customerId");
         const integrationId = searchParams.get("integrationId");
-        if (companyId || integrationId) {
+        if (customerId || integrationId) {
           setFormData(prev => ({
             ...prev,
-            ...(companyId && { companyId }),
+            ...(customerId && { customerId }),
             ...(integrationId && { integrationId }),
           }));
         }
@@ -54,8 +54,8 @@ function NewTaskForm() {
     loadData();
   }, [searchParams]);
 
-  const filteredIntegrations = formData.companyId
-    ? integrations.filter((i) => i.companyId === formData.companyId)
+  const filteredIntegrations = formData.customerId
+    ? integrations.filter((i) => i.customerId === formData.customerId)
     : integrations;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,7 +68,7 @@ function NewTaskForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          companyId: formData.companyId || undefined,
+          customerId: formData.customerId || undefined,
           integrationId: formData.integrationId || undefined,
           dueDate: formData.dueDate || undefined,
         }),
@@ -97,25 +97,25 @@ function NewTaskForm() {
         <Card>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="companyId" className="block text-sm font-medium text-gray-700 mb-2">
-                Company (optional)
+              <label htmlFor="customerId" className="block text-sm font-medium text-gray-700 mb-2">
+                Customer (optional)
               </label>
               <select
-                id="companyId"
-                value={formData.companyId}
+                id="customerId"
+                value={formData.customerId}
                 onChange={(e) => {
                   setFormData({
                     ...formData,
-                    companyId: e.target.value,
-                    integrationId: "", // Reset integration when company changes
+                    customerId: e.target.value,
+                    integrationId: "", // Reset integration when customer changes
                   });
                 }}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">No company</option>
-                {companies.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.name}
+                <option value="">No customer</option>
+                {customers.map((customer) => (
+                  <option key={customer.id} value={customer.id}>
+                    {customer.name}
                   </option>
                 ))}
               </select>
@@ -129,7 +129,7 @@ function NewTaskForm() {
                 id="integrationId"
                 value={formData.integrationId}
                 onChange={(e) => setFormData({ ...formData, integrationId: e.target.value })}
-                disabled={!formData.companyId}
+                disabled={!formData.customerId}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
               >
                 <option value="">No integration</option>

@@ -6,12 +6,12 @@
 - Offer leadership visibility into rollout progress + risk.
 
 ## Data Model Sketch
-- **Company** (id, name, stage, success metrics)
-- **Integration** (id, company_id, template_id, status, phase, owner_id)
+- **Customer** (id, name, stage, success metrics)
+- **Integration** (id, customer_id, template_id, status, phase, owner_id)
 - **ChecklistItem** (id, integration_id, title, state, due_date, linked_task)
 - **ArtifactLink** (id, integration_id, type[repo/env/pipeline], url, metadata)
-- **Pipeline** (id, company_id, type[ingest/transform/eval], last_run_at, status)
-- **AgentConfig** (id, company_id, purpose, model, env, last_eval_id)
+- **Pipeline** (id, customer_id, type[ingest/transform/eval], last_run_at, status)
+- **AgentConfig** (id, customer_id, purpose, model, env, last_eval_id)
 
 ## UX Flow
 1. **Library of Templates** – Onboarding, Data Sync, Eval Harness. Each template preloads checklist items + artifacts.

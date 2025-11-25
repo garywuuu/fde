@@ -16,7 +16,7 @@ interface EvalRun {
   duration: number | null;
   trigger: string;
   createdAt: string;
-  company: {
+  customer: {
     id: string;
     name: string;
   } | null;
@@ -103,9 +103,9 @@ export default function EvalsPage() {
                               </span>
                             )}
                           </div>
-                          {run.company && (
+                          {run.customer && (
                             <p className="text-sm text-gray-500 mt-1">
-                              Company: {run.company.name}
+                              Customer: {run.customer.name}
                             </p>
                           )}
                         </div>
@@ -156,7 +156,7 @@ export default function EvalsPage() {
             passRate: 0.95,
             totalTests: 100,
             passedTests: 95,
-            companyId: "optional-company-uuid",
+            customerId: "optional-customer-uuid",
           }, null, 2)}</pre>
         </div>
       </Card>

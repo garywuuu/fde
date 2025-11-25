@@ -15,7 +15,7 @@ interface Task {
   priority: string | null;
   dueDate: string | null;
   source: string | null;
-  company: {
+  customer: {
     id: string;
     name: string;
   } | null;
@@ -179,11 +179,11 @@ export default function TaskDetailPage() {
                     {task.owner?.name || task.owner?.email || "Unassigned"}
                   </p>
                 </div>
-                {task.company && (
+                {task.customer && (
                   <div>
-                    <p className="text-gray-600">Company</p>
-                    <Link href={`/companies/${task.company.id}`} className="text-blue-600 hover:underline font-medium mt-1 inline-block">
-                      {task.company.name}
+                    <p className="text-gray-600">Customer</p>
+                    <Link href={`/customers/${task.customer.id}`} className="text-blue-600 hover:underline font-medium mt-1 inline-block">
+                      {task.customer.name}
                     </Link>
                   </div>
                 )}
