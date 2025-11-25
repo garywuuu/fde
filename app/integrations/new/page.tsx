@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Layout } from "@/components/Layout";
 import { Card } from "@/components/ui/Card";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 
 export const dynamic = 'force-dynamic';
 
-export default function NewIntegrationPage() {
+function NewIntegrationForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -152,5 +152,20 @@ export default function NewIntegrationPage() {
         </Card>
       </div>
     </Layout>
+  );
+}
+
+export default function NewIntegrationPage() {
+  return (
+    <Suspense fallback={
+      <Layout>
+        <div className="text-center py-12">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </Layout>
+    }>
+      <NewIntegrationForm />
+    </Suspense>
   );
 }
